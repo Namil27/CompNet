@@ -1,0 +1,44 @@
+- name: Install and start Caddy
+  hosts: vds
+  become: true
+
+  tasks:
+    - name: Install dependencies
+      apt:
+        name:
+          - debian-keyring
+          - debian-archive-keyring
+          - apt-transport-https
+          - curl
+        state: present
+        update_cache: true
+
+    - name: Add Caddy GPG key
+      shell: |
+        curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' \
+        | gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg
+      args:
+        creates: /usr/share/keyrings/caddy-stable-archive-keyring.gpg
+
+    - name: Add Caddy repository
+      shell: |
+        echo "deb [signed-by=/usr/share/keyrings/caddy-stable-archive-keyring.gpg] \
+        https://dl.cloudsmith.io/public/caddy/stable/deb/debian any-version main" \
+        > /etc/apt/sources.list.d/caddy-stable.list
+      args:
+        creates: /etc/apt/sources.list.d/caddy-stable.list
+
+    - name: Update apt cache
+      apt:
+        update_cache: true
+
+    - name: Install Caddy
+      apt:
+        name: caddy
+        state: present
+
+    - name: Ensure Caddy is running
+      service:
+        name: caddy
+        state: started
+        enabled: true

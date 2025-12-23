@@ -1,0 +1,47 @@
+- name: File operations playbook (task 1)
+  hosts: vds
+  become: true
+
+  vars:
+    target_file: /tmp/ansible_playbook.txt
+
+  tasks:
+    - name: Create file
+      file:
+        path: "{{ target_file }}"
+        state: touch
+
+    - name: Check that file exists
+      stat:
+        path: "{{ target_file }}"
+      register: file_stat
+
+    - name: Fail if file was not created
+      fail:
+        msg: "File was not created: {{ target_file }}"
+      when: not file_stat.stat.exists
+
+    - name: Write initial content
+      copy:
+        dest: "{{ target_file }}"
+        content: "Initial content from Ansible playbook\n"
+
+    - name: Modify file content before deletion
+      copy:
+        dest: "{{ target_file }}"
+        content: "Modified content before deletion\n"
+
+    - name: Show final content (proof for report)
+      command: cat "{{ target_file }}"
+      register: cat_out
+      changed_when: false
+
+    - name: Print final content
+      debug:
+        msg: "{{ cat_out.stdout }}"
+
+    - name: Delete file
+      file:
+        path: "{{ target_file }}"
+        state: absent
+

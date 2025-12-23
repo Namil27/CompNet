@@ -1,0 +1,7 @@
+http://svozovdonbassa.duckdns.org {
+
+    root * /var/www/html
+    file_server
+
+}
+
