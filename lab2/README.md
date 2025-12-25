@@ -1,3 +1,5 @@
+# ЛР 2. Loki + Zabbix + Grafana
+
 ## Часть 1. Логирование
 
 1. Создадим первые два Yaml файла конфигурации: `docker-compose.yml` и `promtail_config.yml`
