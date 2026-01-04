@@ -3,7 +3,6 @@
 ## Цель
 Развернуть кластер PostgreSQL из двух нод с Patroni + Zookeeper и настроить единый вход через HAProxy.
 
-## Подготовительный этап
 - Мы подготовили файлы:
   - `Dockerfile`
   - `docker-compose.yml`
@@ -24,3 +23,10 @@ docker compose up -d --build
 
 ### На лидере создана таблица и добавлена запись:
 ![insert leader](assets/03-insert-leader.png)
+
+### Проверка репликации
+Далее мы подключились ко второй ноде pg-master, которая работает как реплика. На реплике выполнили SELECT из таблицы my_first_replication.  В результате отобразилась та же строка, что и на лидере. Из этого делаем вывод, что репликация  работает. 
+
+Затем попробовали выполнить INSERT на реплике и получили ошибку "cannot execute INSERT in a read-only transaction". Это значит, что реплика находится в режиме чтения, как и должно быть в HA-кластере.
+
+![replica readonly](assets/04-replica-readonly.png)
