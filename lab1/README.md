@@ -13,6 +13,7 @@
 - И запустили кластер при помощи команды:
 ```bash
 docker compose up -d --build
+```
 
 ### Список запущенных контейнеров после запуска docker compose.
 ![docker ps](assets/01-docker-ps.png)
