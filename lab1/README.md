@@ -1,7 +1,7 @@
 # ЛР1. HA Postgres Cluster (Patroni, Zookeeper, HAProxy)
 
 ## Цель
-Развернуть кластер PostgreSQL из двух нод с Patroni + Zookeeper и настроить единый вход через HAProxy.
+Развернуть кластер PostgreSQL из двух нод с Patroni и Zookeeper, а также настроить вход через HAProxy.
 
 Мы подготовили файлы:
   - `Dockerfile`
@@ -38,4 +38,10 @@ docker compose up -d --build
 Чтобы подключаться к кластеру по одному адресу, мы добавили контейнер HAProxy. Он проверяет через Patroni, какая нода сейчас является лидером, и направляет подключения на активного лидера. После docker-compose.yml перезапустили проект и контейнер haproxy успешно стартовал.
 
 ![haproxy cfg](assets/05-haproxy-cfg.png)
+
+
 ![haproxy started](assets/06-compose-haproxy-started.png)
+
+Мы проверили, что HAProxy работает как единая точка входа. То есть подключились к базе через haproxy:5432 и выполнили SELECT. Запрос вернул актуальные данные из кластера, значит доступ через прокси настроен корректно:
+
+![SELECT через HAProxy (haproxy:5432)](assets/07-select-via-haproxy.png)
