@@ -1,4 +1,4 @@
-# ЛР1. HA Postgres Cluster (Patroni + Zookeeper + HAProxy)
+# ЛР1. HA Postgres Cluster (Patroni, Zookeeper, HAProxy)
 
 ## Цель
 Развернуть кластер PostgreSQL из двух нод с Patroni + Zookeeper и настроить единый вход через HAProxy.
@@ -13,6 +13,7 @@
 ```bash
 docker compose up -d --build
 ```
+## 1 часть: Patroni, Zookeeper, роли, репликация
 
 ### Список запущенных контейнеров после запуска docker compose.
 ![docker ps](assets/01-docker-ps.png)
@@ -30,3 +31,6 @@ docker compose up -d --build
 Затем попробовали выполнить INSERT на реплике и получили ошибку "cannot execute INSERT in a read-only transaction". Это значит, что реплика находится в режиме чтения, как и должно быть в HA-кластере.
 
 ![replica readonly](assets/04-replica-readonly.png)
+
+## 2 часть: Настраиваем HAProxy
+
