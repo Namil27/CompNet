@@ -46,6 +46,18 @@ services:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
 
+  haproxy:
+    image: haproxy:2.9
+    container_name: haproxy
+    restart: always
+    depends_on:
+      - pg-master
+      - pg-slave
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+
 volumes:
   pg-master:
   pg-slave:

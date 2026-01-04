@@ -35,3 +35,7 @@ docker compose up -d --build
 
 ## 2 часть: Настраиваем HAProxy
 
+Чтобы подключаться к кластеру по одному адресу, мы добавили контейнер HAProxy. Он проверяет через Patroni, какая нода сейчас является лидером, и направляет подключения на активного лидера. После docker-compose.yml перезапустили проект и контейнер haproxy успешно стартовал.
+
+![haproxy cfg](assets/05-haproxy-cfg.png)
+![haproxy started](assets/06-compose-haproxy-started.png)
