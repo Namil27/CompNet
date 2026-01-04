@@ -3,13 +3,14 @@
 ## Цель
 Развернуть кластер PostgreSQL из двух нод с Patroni + Zookeeper и настроить единый вход через HAProxy.
 
-- Мы подготовили файлы:
+Мы подготовили файлы:
   - `Dockerfile`
   - `docker-compose.yml`
   - `postgres0.yml`
   - `postgres1.yml`
   - `haproxy.cfg`
-- И запустили кластер при помощи команды:
+
+И запустили кластер при помощи команды:
 ```bash
 docker compose up -d --build
 ```
